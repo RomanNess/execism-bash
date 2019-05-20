@@ -9,31 +9,15 @@
 }
 
 @test "one long argument" {
-  # skip
+  #skip
   run bash error_handling.sh "Alice and Bob"
 
   [ "$status" -eq 0 ]
   [ "$output" = "Hello, Alice and Bob" ]
 }
 
-@test "greet three names" {
-  # skip
-  run bash error_handling.sh "Alice and Bob and Carol"
-
-  [ "$status" -eq 0 ]
-  [ "$output" = "Hello, Alice and Bob and Carol" ]
-}
-
-@test "names can contain numbers" {
-  # skip
-  run bash error_handling.sh "r2d2 and c3p0"
-
-  [ "$status" -eq 0 ]
-  [ "$output" = "Hello, r2d2 and c3p0" ]
-}
-
 @test "incorrect arguments" {
-  # skip
+  #skip
   run bash error_handling.sh Alice Bob
 
   [ "$status" -eq 1 ]
@@ -41,7 +25,7 @@
 }
 
 @test "print usage banner with no value given" {
-  # skip
+  #skip
   run bash error_handling.sh
 
   [ "$status" -eq 1 ]
@@ -49,7 +33,7 @@
 }
 
 @test "empty argument" {
-  # skip
+  #skip
   run bash error_handling.sh ""
 
   [ "$status" -eq 0 ]
