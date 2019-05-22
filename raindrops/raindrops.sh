@@ -2,6 +2,7 @@
 
 set -o errexit
 set -o nounset
+set -o pipefail
 
 function filter_factors {
     while read n; do
@@ -38,7 +39,6 @@ function main {
 
     NUMBER=$1
     seq 1 $NUMBER | filter_factors | factors_to_raindrops | use_largest_factor_if_no_raindrops
-    exit 0;
 }
 
 main "$@"
