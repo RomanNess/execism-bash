@@ -41,3 +41,17 @@
   [ "$status" -eq 0 ]
   [ "$output" == 'ROTFLSHTMDCOALM' ]
 }
+
+@test 'no argument shows usage' {
+
+  run bash acronym.sh
+  [ "$status" -eq 1 ]
+  [ "$output" == "Usage: acronym.sh <string>" ]
+}
+
+@test 'to many arguments shows usage' {
+
+  run bash acronym.sh 'Oh' 'my' 'god'
+  [ "$status" -eq 1 ]
+  [ "$output" == "Usage: acronym.sh <string>" ]
+}
