@@ -3,6 +3,15 @@
 set -o errexit
 set -o nounset
 
+bracket_stack=""
+
+declare -A matching_brackets=(
+    ["]"]="["
+    [")"]="("
+    ["}"]="{"
+)
+
+
 function main {
     if (( $# != 1 )); then
         echo "Usage: $0 <expression-with-brackets>"
@@ -26,23 +35,11 @@ function handleChar {
     char=$1
 
     case "${char}" in
-        '[')
+        '[' | '(' | '{')
             pushStack "${char}"
         ;;
-        ']')
-            popStackAndValidate "["
-        ;;
-        '{')
-            pushStack "${char}"
-        ;;
-        '}')
-            popStackAndValidate "{"
-        ;;
-        '(')
-            pushStack "${char}"
-        ;;
-        ')')
-            popStackAndValidate "("
+        ']' | ')' | '}')
+            popStackAndValidate "${matching_brackets[${char}]}"
         ;;
     esac
 }
@@ -53,17 +50,11 @@ function pushStack {
 }
 
 function popStackAndValidate {
-    if [[ "${bracket_stack}" == "" ]]; then
-        reportFalse
-    fi
-
     char=$1
-    charOnStack="${bracket_stack:0:1}"
 
-    if [[ "${char}" != "${charOnStack}" ]]; then
+    if [[ "${bracket_stack}" == "" ]] || [[ "${bracket_stack}" != "${char}"* ]]; then
         reportFalse
     fi
-
     bracket_stack=${bracket_stack#?}
 }
 
@@ -72,5 +63,4 @@ function reportFalse {
     exit 0
 }
 
-bracket_stack=""
 main "$@"
