@@ -12,8 +12,7 @@ result=""
 normalizedInput=${1/-/ }
 for word in $normalizedInput; do
     firstLetter=${word:0:1}
-    firstLetterCapitalized=${firstLetter^}
-    result+=${firstLetterCapitalized}
+    result+=${firstLetter}
 done
 
-echo -n "${result}"
+echo ${result^^}
