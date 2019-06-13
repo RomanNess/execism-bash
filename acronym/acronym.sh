@@ -8,7 +8,12 @@ if (( $# != 1 )); then
     exit 1
 fi
 
+result=""
 normalizedInput=${1/-/ }
 for word in $normalizedInput; do
-    echo -n ${word:0:1} | tr a-z A-Z
+    firstLetter=${word:0:1}
+    firstLetterCapitalized=${firstLetter^}
+    result+=${firstLetterCapitalized}
 done
+
+echo -n "${result}"
