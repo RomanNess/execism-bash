@@ -28,6 +28,12 @@
     [[ $output == "33" ]]
 }
 
+@test "white grey violet blue green yellow orange red brown black" {
+    run bash resistor_color_duo.sh white grey violet blue green yellow orange red brown black
+    [[ $status -eq 0 ]]
+    [[ $output == "9876543210" ]]
+}
+
 @test "invalid color" {
     # skip
     run bash resistor_color_duo.sh foo
