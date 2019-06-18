@@ -29,6 +29,13 @@ function binarySearch {
     exit 0
 }
 
+function printUsage {
+    echo "Usage: $0 <toFind> [<num>...]"
+    exit 1
+}
+
+(( $# == 0 )) && printUsage
+
 declare -a list=("${@:2}")
 
 binarySearch $1 0 $((${#list[@]} - 1))

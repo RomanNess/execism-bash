@@ -104,3 +104,8 @@
     [[ $output == "$expected" ]]
 }
 
+@test "usage is printed when no args" {
+    run bash binary_search.sh
+    [[ $status -eq 1 ]]
+    [[ $output == "Usage: binary_search.sh <toFind> [<num>...]" ]]
+}
