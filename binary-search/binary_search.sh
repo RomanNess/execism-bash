@@ -3,42 +3,32 @@
 set -o errexit
 set -o nounset
 
+DEBUG_LOGS=${DEBUG_LOGS:-false}
+
 function binarySearch {
-    n=$1
-    startIndex=$2
-    endIndex=$3
+    local n=$1
+    local startIndex=$2
+    local endIndex=$3
 
-    if (( ${startIndex} == ${endIndex} )); then
-        # slice is empty
-        notFound
-    fi
-
-    midIndex=$(( (startIndex + endIndex) / 2 ))
-    [[ $DEBUG_LOGS == "true" ]] && echo "start=${startIndex}, end=${endIndex}, mid=${midIndex}"
-
-    valAtMidIndex="${list[${midIndex}]}"
-    if (( $n == ${valAtMidIndex} )); then
-        echo "${midIndex}"
+    if (( ${startIndex} > ${endIndex} )); then
+        echo "-1"
         exit 0
     fi
 
-    if (( ${midIndex} == ${startIndex} )) || (( ${midIndex} == ${startIndex} )); then
-        # midIndex has converged
-        notFound
-    fi
+    local midIndex=$(( (startIndex + endIndex) / 2 ))
+    [[ ${DEBUG_LOGS} == "true" ]] && echo "start=${startIndex}, end=${endIndex}, mid=${midIndex}"
 
+    local valAtMidIndex="${list[${midIndex}]}"
     if (( $n < ${valAtMidIndex} )); then
-        binarySearch $n $startIndex $midIndex
-    else
-        binarySearch $n $midIndex $endIndex
+        binarySearch $n $startIndex $(($midIndex - 1))
+    elif (( $n > ${valAtMidIndex} )); then
+        binarySearch $n $(($midIndex + 1)) $endIndex
     fi
-}
 
-function notFound {
-    echo "-1"
+    echo "${midIndex}"
     exit 0
 }
 
 declare -a list=("${@:2}")
 
-binarySearch $1 0 ${#list[@]}
+binarySearch $1 0 $((${#list[@]} - 1))
