@@ -9,6 +9,5 @@ if (( $# != 1 )); then
     exit 1
 fi
 
-dateString=$(date --utc --date="$1 + 1000000000 seconds")
-# my version of 'date' prints two spaces between month and day for single digit days
-echo "${dateString/  / }"
+# custom date format since 'date' on Ubuntu 16.04 adds an extra space between month and day
+date --utc --date="$1 + 1000000000 seconds" +"%a %b %-e %T %Z %Y"
