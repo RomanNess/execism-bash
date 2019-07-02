@@ -3,7 +3,7 @@
 set -o errexit
 set -o nounset
 
-function return {
+function returnWith {
     echo "$1"
     exit 0
 }
@@ -16,7 +16,7 @@ function main {
     fi
 
     local isbn="${1//-}"
-    [[ ! "${isbn}" =~ ^[0-9]{9}[0-9X]$ ]] && return "false"
+    [[ ! "${isbn}" =~ ^[0-9]{9}[0-9X]$ ]] && returnWith "false"
 
     local sum=0
     for (( i=0; i<10; i++ )); do
@@ -27,12 +27,10 @@ function main {
             local digit=10
         fi
 
-#        echo "DEBUG sum=$sum, i=$i, multiplier=$multiplier, digit=$digit"
-
         (( sum+=(digit*multiplier) ))
     done
 
-    (( ($sum % 11) == 0 )) && return "true" || return "false"
+    (( ($sum % 11) == 0 )) && returnWith "true" || returnWith "false"
 }
 
 main "$@"
