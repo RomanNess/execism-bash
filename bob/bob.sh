@@ -3,11 +3,6 @@
 set -o errexit
 set -o nounset
 
-# function isQuestion {
-#     local lastChar="${1: -1}"
-#     [[ "${lastChar}" == "?" ]] && echo "1" || echo "0"
-# }
-
 function isQuestion {
   [[ ${1: -1} = "?" ]]
 }
